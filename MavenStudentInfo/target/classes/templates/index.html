@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 5px;
+        margin-left: 10px;
+      }
+
+      button[type="submit"] {
+        background-color: #d9534f;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #c9302c;
+      }
+
+      a {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+
+      a:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Student List</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Student Number</th>
+        <th>Email</th>
+        <th>GPA</th>
+        <th>Course List</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+
+      <tr th:each="student : ${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.studentNumber}"></td>
+        <td th:text="${student.email}"></td>
+        <td th:text="${student.gpa}"></td>
+        <td>
+          <ul>
+            <li
+              th:each="course : ${student.courseList}"
+              th:text="${course}"
+            ></li>
+          </ul>
+        </td>
+        <td><a th:href="@{'/students/' + ${student.id} + '/edit'}">Edit</a></td>
+        <td>
+          <form
+            th:action="@{'/students/' + ${student.id} + '/delete'}"
+            method="post"
+          >
+            <input type="hidden" name="_method" value="post" />
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <a href="/students/add">Add Student</a>
+  </body>
+</html>
